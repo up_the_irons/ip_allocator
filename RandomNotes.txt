@@ -1,0 +1,13 @@
+Random Notes
+------------
+
+* Can go from IPAddr integer representation back to human-readable IP format using NetAddr:
+
+  irb(main):091:0> ip=IPAddr.new("208.79.88.0/24")
+  => #<IPAddr: IPv4:208.79.88.0/255.255.255.0>
+  irb(main):092:0> ip.to_i
+  => 3494860800
+  irb(main):093:0> NetAddr.i_to_ip(_)
+  => "208.79.88.0"
+
+
