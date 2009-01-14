@@ -1,0 +1,117 @@
+======================
+Welcome to IPAllocator
+======================
+
+:Author: Garry Dolley
+:Date: 01-14-2009
+:Version: v0.1
+
+A class that helps ISP's subnet their IPv4 and IPv6 address space.
+
+Example uses include:
+
+  * Allocating IPs to customers
+  * Allocating subnets to downstream networks
+  * Allocating subnets for internal use
+
+The latest code is available on GitHub:
+
+  * git://github.com/up_the_irons/ip_allocator.git
+
+Status
+------
+
+A very young class.  Current specs pass, but more are needed, especially for
+edge cases and IPv6.  Correctness testing is incomplete.  Performance has not
+been touched.
+
+Makes use of NetAddr module and is not optimized for speed.
+
+Requirements
+------------
+
+* RubyGems
+* NetAddr
+
+Installation
+------------
+
+Install NetAddr gem from RubyForge::
+
+  gem install -r netaddr
+
+Put this code somewhere and require it in your code::
+
+  require 'rubygems'
+  require 'ip_allocator'
+
+Example
+-------
+
+::
+
+  require 'rubygems'
+  require 'ip_allocator'
+
+  @supernet  = NetAddr::CIDR.create('208.79.88.0/21')
+  
+  @allocated = [NetAddr::CIDR.create('208.79.89.0/25'),
+                NetAddr::CIDR.create('208.79.91.0/24')]
+  
+  @allocator = IPAllocator.new(@supernet, @allocated)
+
+  # Give me a /24
+  @allocator.first_unused(24).to_s                      => '208.79.88.0/24'
+
+TODO
+----
+
+* Specs
+
+  - Correctness
+  - IPv6
+
+* Some performance testing
+
+Author
+------
+
+Garry C. Dolley
+
+gdolley [at] NOSPAM- ucla.edu
+
+AIM: garry97531
+
+IRC: up_the_irons in #pledgie, #git, #caboose on Freenode (and usually many 
+other channels)
+
+Formatting
+----------
+
+This README is formatted in reStructredText [RST]_.  It has the best
+correlation between what a document looks like as plain text vs. its
+formatted output (HTML, LaTeX, etc...).  What I like best is, markup doesn't
+look like markup, even though it is.
+
+.. [RST] http://docutils.sourceforge.net/rst.html
+
+RDoc sucks.
+
+Copyright
+---------
+
+Copyright (c) 2009 Garry C. Dolley
+
+IPAllocator is free software; you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+IPAllocator is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+IPAllocator; if not, write to the Free Software Foundation, Inc., 51 Franklin
+Street, Fifth Floor, Boston, MA  02110-1301, USA
+
