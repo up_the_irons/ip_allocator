@@ -14,6 +14,12 @@ Example uses include:
   * Allocating subnets to downstream networks
   * Allocating subnets for internal use
 
+Default allocation strategy uses the  "centermost" scheme of RFC 3531.
+
+RFC 3531 is a generalization of RFC 1219 ("On the Assignment of Subnet 
+Numbers").  Its first intended use is for IPv6, but can be used for any
+bit length addressing scheme (e.g. IPv4).
+
 The latest code is available on GitHub:
 
   * git://github.com/up_the_irons/ip_allocator.git
