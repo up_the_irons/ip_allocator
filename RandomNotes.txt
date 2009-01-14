@@ -10,4 +10,6 @@ Random Notes
   irb(main):093:0> NetAddr.i_to_ip(_)
   => "208.79.88.0"
 
+* There is also a NetAddr.ip_to_i(), so using IPAddr is unnecessary
 
+* Look into NetAddr::CIDR#subnet
