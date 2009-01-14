@@ -20,6 +20,26 @@ RFC 3531 is a generalization of RFC 1219 ("On the Assignment of Subnet
 Numbers").  Its first intended use is for IPv6, but can be used for any
 bit length addressing scheme (e.g. IPv4).
 
+When allocating IPs, we want to balance two goals:
+
+  * Minimize fragmentation of blocks
+
+    - For example, if you have a /19, and you allocate several /24's and /25's,
+      you still want a /23 and /22 to be available if needed.  
+      
+      You don't want the /24's and /25's to be allocated in such a way that
+      they are subnets of all the available /22's, thus making no further /22's
+      available for reassignment.
+
+  * Allow existing allocations to "grow" into larger allocations by simply
+    changing the subnet mask, instead of allocating a second, non-contiguous 
+    block.
+
+    - This lessens the number of distinct routes seen by routing protocols,
+      which places less burden on routers and saves FIB space.
+
+Of these, minimizing fragmentation of blocks is given higher priority.
+
 The latest code is available on GitHub:
 
   * git://github.com/up_the_irons/ip_allocator.git
