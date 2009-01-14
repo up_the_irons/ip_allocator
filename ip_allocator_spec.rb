@@ -24,7 +24,33 @@ describe IPAllocator do
   describe "Edge Cases" do
     it "should not find a block larger than the supernet" do
       # /20 is larger than supernet of /21
-      @allocator.first_unused(20).should be_false
+      @allocator.first_unused(20).should be_nil
+    end
+  end
+
+  describe "Methods" do
+    describe "available()" do
+      it "should return available /23's" do
+        @allocator.available(23).should == ['208.79.92.0/23',
+                                            '208.79.94.0/23']
+      end
+
+      it "should return available /24's" do
+        @allocator.available(24).should == ['208.79.88.0/24',
+                                            '208.79.90.0/24',
+                                            '208.79.92.0/24',
+                                            '208.79.94.0/24',
+                                            '208.79.93.0/24',
+                                            '208.79.95.0/24']
+      end
+
+      it "should return available /22's" do
+        @allocator.available(22).should == ['208.79.92.0/22']
+      end
+
+      it "should return empty set for requested block size larger than supernet" do
+        @allocator.available(20).should == []
+      end
     end
   end
 end

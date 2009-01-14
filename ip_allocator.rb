@@ -29,7 +29,33 @@ class IPAllocator
 
   # Synopsis:
   #
-  #   Find the first unused block, per RFC 3531
+  #   Find the first available block for allocation.
+  #
+  #   See available() for more information. 
+  #
+  # Arguments:
+  # 
+  #   Takes same arguments as available()
+  #
+  # Returns:
+  #
+  #   NetAddr::CIDR object of first available block for allocation.  nil if no
+  #   block is found.
+  def first_unused(size, opts = {})
+    available(size, opts).first
+  end
+
+  # Synopsis:
+  #
+  #   Find available blocks for allocation, arranged by the order in which they
+  #   should be allocated, as described in RFC 3531.
+  #
+  #   Available blocks are defined as blocks that are not included in 
+  #   @allocated or a subnet of a member of @allocated.
+  #
+  #   RFC 3531 is a generalization of RFC 1219 ("On the Assignment of Subnet 
+  #   Numbers").  Its first intended use is for IPv6, but can be used for any
+  #   bit length addressing scheme (e.g. IPv4).
   #
   # Arguments:
   #
@@ -45,10 +71,10 @@ class IPAllocator
   #       
   # Returns:
   #
-  #   NetAddr::CIDR object of first unused block found.  False otherwise.
-  def first_unused(size, opts = {})
+  #   An array of NetAddr::CIDR objects of available blocks.
+  def available(size, opts = {})
     if size < @supernet.bits
-      return false
+      return []
     end
 
     defaults = { :Objectify => true,
@@ -58,12 +84,16 @@ class IPAllocator
 
     @available = @candidates.select do |candidate_block|
       @allocated.each do |allocated_block|
+        if candidate_block == allocated_block
+          break false
+        end
+
         if candidate_block.contains?(allocated_block)
           break false
         end
       end
     end
 
-    @available.first
+    @available
   end
 end
