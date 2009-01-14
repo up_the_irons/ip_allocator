@@ -1,18 +1,45 @@
 require 'rubygems'
 require 'netaddr'
 
-# All CIDR objects belong to the NetAddr module.  Where CIDR is referenced,
-# the complete object path is NetAddr::CIDR.
-
+# IPAllocator
+#
+# Synopsis:
+#
+#   A class that helps ISP's subnet their IPv4 and IPv6 address space.
+#
+#   Example uses include:
+#
+#     * Allocating IPs to customers
+#     * Allocating subnets to downstream networks
+#     * Allocating subnets for internal use
+#
+# Notes:
+#
+#   All CIDR objects belong to the NetAddr module.  Where CIDR is referenced,
+#   the complete object path is NetAddr::CIDR.
+#
+# Requirements:
+#
+#   * RubyGems
+#   * NetAddr gem
+#
 class IPAllocator
-  # supernet: a CIDR object describing a block of IPs from which allocations
-  #           can be made.
+  # initialize()
   #
-  # assignments: an array of CIDR objects defining which IP blocks are 
-  #              already allocated and not eligible for assignment.
+  # Synopsis:
   #
-  #              Naturally, all assignments should be a proper subset of 
-  #              the supernet.
+  #   Constructor.
+  #
+  # Arguments:
+  #
+  #   * supernet: a CIDR object describing a block of IPs from which allocations
+  #               can be made.
+  #
+  #   * assignments: an array of CIDR objects defining which IP blocks are 
+  #                  already allocated and not eligible for assignment.
+  #
+  #                  Naturally, all assignments should be a proper subset of 
+  #                  the supernet.
   #
   # Example:
   #
@@ -27,6 +54,8 @@ class IPAllocator
     @allocated = allocated
   end
 
+  # first_unused()
+  #
   # Synopsis:
   #
   #   Find the first available block for allocation.
@@ -45,6 +74,8 @@ class IPAllocator
     available(size, opts).first
   end
 
+  # available()
+  #
   # Synopsis:
   #
   #   Find available blocks for allocation, arranged by the order in which they
