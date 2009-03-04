@@ -122,6 +122,10 @@ class IPAllocator
         if candidate_block.contains?(allocated_block)
           break false
         end
+
+        if allocated_block.contains?(candidate_block)
+          break false
+        end
       end
     end
 
